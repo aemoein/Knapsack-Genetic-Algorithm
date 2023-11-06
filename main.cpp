@@ -70,6 +70,25 @@ int calculateFitness(const vector<bool>& individual, const vector<Item>& items, 
     return totalValue;
 }
 
+void onePointCrossover(const vector<vector<bool>>& parents, vector<vector<bool>>& offspring) {
+    int numParents = parents.size();
+    int numGenes = parents[0].size();
+    offspring.resize(numParents, vector<bool>(numGenes));
+
+    for (int i = 0; i < numParents; i += 2) {
+        int crossoverPoint = rand() % numGenes;
+        for (int j = 0; j < numGenes; ++j) {
+            if (j <= crossoverPoint) {
+                offspring[i][j] = parents[i][j];
+                offspring[i + 1][j] = parents[i + 1][j];
+            } else {
+                offspring[i][j] = parents[i + 1][j];
+                offspring[i + 1][j] = parents[i][j];
+            }
+        }
+    }
+}
+
 int main() {
     int numTestCases;
     vector<int> KnapsackSize;
