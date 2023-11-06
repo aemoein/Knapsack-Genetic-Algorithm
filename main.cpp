@@ -34,6 +34,10 @@ void readInputFromFile(const string& filename, int& numTestCases, vector<vector<
 }
 
 int main() {
+    int numTestCases;
+    vector<vector<Item>> testCases;
+    readInputFromFile("input.txt", numTestCases, testCases);
 
+    
     return 0;
 }
