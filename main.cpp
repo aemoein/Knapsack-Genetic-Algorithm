@@ -39,5 +39,6 @@ int main() {
     readInputFromFile("input.txt", numTestCases, testCases);
 
     
+
     return 0;
 }
