@@ -10,7 +10,7 @@ struct Item {
     int value;
 };
 
-void readInputFromFile(const string& filename, int& numTestCases, vector<vector<Item>>& testCases) {
+void readInputFromFile(const string& filename, int& numTestCases, vector<int>& KnapsackSize, vector<vector<Item>>& testCases) {
     ifstream input(filename);
     if (!input.is_open()) {
         cerr << "Error: Unable to open input file" << endl;
@@ -22,10 +22,15 @@ void readInputFromFile(const string& filename, int& numTestCases, vector<vector<
 
     input >> numTestCases;
     testCases.resize(numTestCases);
+    KnapsackSize.resize(numTestCases);
 
     for (int i = 0; i < numTestCases; ++i) {
-        int knapsackSize, numItems;
-        input >> knapsackSize >> numItems;
+        int knapsackSizeAtIndex, numItems;
+        input >> KnapsackSize[i] >> numItems;
+        
+        
+        cout << "knapsack size: " << KnapsackSize[i] << endl;
+        cout << "number of items " << numItems << endl;
         testCases[i].resize(numItems);
 
         for (int j = 0; j < numItems; ++j) {
@@ -38,17 +43,20 @@ void readInputFromFile(const string& filename, int& numTestCases, vector<vector<
 
 int main() {
     int numTestCases;
+    
+    vector<int> KnapsackSize;
     vector<vector<Item>> testCases;
-    readInputFromFile("input.txt", numTestCases, testCases);
+    readInputFromFile("input.txt", numTestCases, KnapsackSize, testCases);
+    
 
     for (int testCaseIndex = 0; testCaseIndex < numTestCases; ++testCaseIndex) {
-        
-        int knapsackSize = testCases[testCaseIndex][0].weight;
         vector<Item>& items = testCases[testCaseIndex];
         
         
         
         cout << "Test Case " << testCaseIndex + 1 << ":\n";
+        cout << "Knapsack Size: " << KnapsackSize[testCaseIndex] << endl;
+        cout << endl;
     }
     cout << "Number of test cases: " << numTestCases << endl;
 
