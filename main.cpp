@@ -5,6 +5,11 @@
 
 using namespace std;
 
+struct Item {
+    int weight;
+    int value;
+};
+
 int main() {
 
     return 0;
