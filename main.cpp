@@ -51,6 +51,25 @@ void initializePopulation(vector<vector<bool>>& population, int populationSize, 
     }
 }
 
+int calculateFitness(const vector<bool>& individual, const vector<Item>& items, int knapsackSize) {
+    int totalValue = 0;
+    int totalWeight = 0;
+
+    for (int i = 0; i < items.size(); ++i) {
+        if (individual[i]) {
+            totalValue += items[i].value;
+            totalWeight += items[i].weight;
+        }
+    }
+
+    if (totalWeight > knapsackSize) {
+        // Penalize infeasible solutions
+        return 0;
+    }
+
+    return totalValue;
+}
+
 int main() {
     int numTestCases;
     vector<int> KnapsackSize;
