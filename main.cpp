@@ -70,6 +70,25 @@ int calculateFitness(const vector<bool>& individual, const vector<Item>& items, 
     return totalValue;
 }
 
+void rankBasedSelection(const vector<vector<bool>>& population, const vector<Item>& items, int knapsackSize, vector<vector<bool>>& selectedParents, int numParents) {
+    vector<pair<int, int>> fitnessValues;
+    
+    for (int i = 0; i < population.size(); ++i) {
+        int fitness = calculateFitness(population[i], items, knapsackSize);
+        fitnessValues.emplace_back(i, fitness);
+    }
+
+    
+    sort(fitnessValues.begin(), fitnessValues.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
+        return a.second > b.second;
+    });
+    
+    selectedParents.clear();
+    for (int i = 0; i < numParents; ++i) {
+        selectedParents.push_back(population[fitnessValues[i].first]);
+    }
+}
+
 void onePointCrossover(const vector<vector<bool>>& parents, vector<vector<bool>>& offspring) {
     int numParents = parents.size();
     int numGenes = parents[0].size();
