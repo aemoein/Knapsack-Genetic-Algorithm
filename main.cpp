@@ -129,6 +129,18 @@ void replacePopulation(vector<vector<bool>>& population, const vector<vector<boo
     }
 }
 
+int calculateTotalWeight(const vector<bool>& solution, const vector<Item>& items) {
+    int totalWeight = 0;
+
+    for (int i = 0; i < solution.size(); ++i) {
+        if (solution[i]) {
+            totalWeight += items[i].weight;
+        }
+    }
+
+    return totalWeight;
+}
+
 int main() {
     int numTestCases;
     vector<int> KnapsackSize;
