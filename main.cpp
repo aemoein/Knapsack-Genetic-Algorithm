@@ -158,6 +158,31 @@ int main() {
         double mutationRate = 0.01;
 
         vector< vector<bool> > population;
+        int bestValue = 0;
+
+        for (int generation = 0; generation < numGenerations; ++generation) {
+            // Selection
+            vector<vector<bool>> selectedParents;
+            rankBasedSelection(population, items, knapsackSize, selectedParents, populationSize / 2);
+
+            // Crossover
+            vector<vector<bool>> offspring;
+            onePointCrossover(selectedParents, offspring);
+
+            // Mutation
+            mutation(offspring, mutationRate);
+
+            // Calculate fitness and replace population
+            for (int i = 0; i < offspring.size(); ++i) {
+                int fitness = calculateFitness(offspring[i], items, knapsackSize);
+                if (fitness > bestValue) {
+                    bestValue = fitness;
+                    bestSolution = offspring[i];
+                }
+            }
+
+            replacePopulation(population, offspring);
+        }
         
         cout << "Test Case " << testCaseIndex + 1 << ":\n";
         cout << "Knapsack Size: " << KnapsackSize[testCaseIndex] << endl;
