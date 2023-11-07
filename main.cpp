@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <cstdlib>
-
+#include <algorithm>
 using namespace std;
 
 struct Item {
@@ -105,6 +105,27 @@ void onePointCrossover(const vector<vector<bool>>& parents, vector<vector<bool>>
                 offspring[i + 1][j] = parents[i][j];
             }
         }
+    }
+}
+
+void mutation(vector<vector<bool>>& population, double mutationRate) {
+    int numGenes = population[0].size();
+
+    for (int i = 0; i < population.size(); ++i) {
+        for (int j = 0; j < numGenes; ++j) {
+            if (rand() / static_cast<double>(RAND_MAX) < mutationRate) {
+                population[i][j] = !population[i][j]; // Flip the bit
+            }
+        }
+    }
+}
+
+void replacePopulation(vector<vector<bool>>& population, const vector<vector<bool>>& offspring)
+{
+    int numToReplace = offspring.size();
+    int numPopulation = population.size();
+    for (int i = 0; i < numToReplace; ++i)  {
+        population[numPopulation - 1 - i] = offspring[i];
     }
 }
 
