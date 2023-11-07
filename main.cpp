@@ -120,6 +120,14 @@ void mutation(vector<vector<bool>>& population, double mutationRate) {
     }
 }
 
+void replacePopulation(vector<vector<bool>>& population, const vector<vector<bool>>& offspring)
+{
+    int numToReplace = offspring.size();
+    int numPopulation = population.size();
+    for (int i = 0; i < numToReplace; ++i)  {
+        population[numPopulation - 1 - i] = offspring[i];
+    }
+}
 
 int main() {
     int numTestCases;
