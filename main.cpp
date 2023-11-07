@@ -184,11 +184,21 @@ int main() {
             replacePopulation(population, offspring);
         }
         
+        // Output the results for this test case
         cout << "Test Case " << testCaseIndex + 1 << ":\n";
-        cout << "Knapsack Size: " << KnapsackSize[testCaseIndex] << endl;
+        cout << "Number of selected items: " << count(bestSolution.begin(), bestSolution.end(), true) << endl;
+        cout << "Total value: " << bestValue << endl;
+        cout << "Total weight: " << calculateTotalWeight(bestSolution, items) << endl;
+
+        cout << "Selected items:\n";
+        for (int i = 0; i < bestSolution.size(); ++i) {
+            if (bestSolution[i]) {
+                cout << "Item No: " << i+1 <<" | Weight: " << items[i].weight << " Value: " << items[i].value << endl;
+            }
+        }
+        cout << endl;
         cout << endl;
     }
-    cout << "Number of test cases: " << numTestCases << endl;
 
     return 0;
 }
