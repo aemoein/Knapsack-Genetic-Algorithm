@@ -26,11 +26,8 @@ void readInputFromFile(const string& filename, int& numTestCases, vector<int>& K
 
     for (int i = 0; i < numTestCases; ++i) {
         int knapsackSizeAtIndex, numItems;
+        
         input >> KnapsackSize[i] >> numItems;
-        
-        
-        cout << "knapsack size: " << KnapsackSize[i] << endl;
-        cout << "number of items " << numItems << endl;
         testCases[i].resize(numItems);
 
         for (int j = 0; j < numItems; ++j) {
