@@ -158,6 +158,9 @@ int main() {
         double mutationRate = 0.01;
 
         vector< vector<bool> > population;
+        initializePopulation(population, populationSize, items.size());
+
+        vector<bool> bestSolution;
         int bestValue = 0;
 
         for (int generation = 0; generation < numGenerations; ++generation) {
