@@ -129,6 +129,18 @@ void replacePopulation(vector<vector<bool>>& population, const vector<vector<boo
     }
 }
 
+int calculateTotalWeight(const vector<bool>& solution, const vector<Item>& items) {
+    int totalWeight = 0;
+
+    for (int i = 0; i < solution.size(); ++i) {
+        if (solution[i]) {
+            totalWeight += items[i].weight;
+        }
+    }
+
+    return totalWeight;
+}
+
 int main() {
     int numTestCases;
     vector<int> KnapsackSize;
@@ -146,12 +158,47 @@ int main() {
         double mutationRate = 0.01;
 
         vector< vector<bool> > population;
+        int bestValue = 0;
+
+        for (int generation = 0; generation < numGenerations; ++generation) {
+            // Selection
+            vector<vector<bool>> selectedParents;
+            rankBasedSelection(population, items, knapsackSize, selectedParents, populationSize / 2);
+
+            // Crossover
+            vector<vector<bool>> offspring;
+            onePointCrossover(selectedParents, offspring);
+
+            // Mutation
+            mutation(offspring, mutationRate);
+
+            // Calculate fitness and replace population
+            for (int i = 0; i < offspring.size(); ++i) {
+                int fitness = calculateFitness(offspring[i], items, knapsackSize);
+                if (fitness > bestValue) {
+                    bestValue = fitness;
+                    bestSolution = offspring[i];
+                }
+            }
+
+            replacePopulation(population, offspring);
+        }
         
+        // Output the results for this test case
         cout << "Test Case " << testCaseIndex + 1 << ":\n";
-        cout << "Knapsack Size: " << KnapsackSize[testCaseIndex] << endl;
+        cout << "Number of selected items: " << count(bestSolution.begin(), bestSolution.end(), true) << endl;
+        cout << "Total value: " << bestValue << endl;
+        cout << "Total weight: " << calculateTotalWeight(bestSolution, items) << endl;
+
+        cout << "Selected items:\n";
+        for (int i = 0; i < bestSolution.size(); ++i) {
+            if (bestSolution[i]) {
+                cout << "Item No: " << i+1 <<" | Weight: " << items[i].weight << " Value: " << items[i].value << endl;
+            }
+        }
+        cout << endl;
         cout << endl;
     }
-    cout << "Number of test cases: " << numTestCases << endl;
 
     return 0;
 }
