@@ -159,7 +159,9 @@ int main() {
     int numTestCases;
     vector<int> KnapsackSize;
     vector< vector<Item> > testCases;
-    readInputFromFile("input.txt", numTestCases, KnapsackSize, testCases);
+    readInputFromFile("knapsack_input.txt", numTestCases, KnapsackSize, testCases);
+    
+    srand(static_cast<unsigned>(time(0)));
 
     for (int testCaseIndex = 0; testCaseIndex < numTestCases; ++testCaseIndex) {
         int knapsackSize = KnapsackSize[testCaseIndex];
