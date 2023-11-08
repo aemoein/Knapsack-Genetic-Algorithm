@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstdlib>
 #include <algorithm>
+
 using namespace std;
 
 struct Item {
@@ -18,6 +19,7 @@ void readInputFromFile(const string& filename, int& numTestCases, vector<int>& K
     }
     else {
         cout << "file openned successfully" << endl;
+        cout << endl;
     }
 
     input >> numTestCases;
@@ -75,7 +77,6 @@ void rankBasedSelection(const vector<vector<bool>>& population, const vector<Ite
         fitnessValues.emplace_back(i, fitness);
     }
 
-    
     sort(fitnessValues.begin(), fitnessValues.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
         return a.second > b.second;
     });
@@ -93,6 +94,7 @@ void onePointCrossover(const vector<vector<bool>>& parents, vector<vector<bool>>
 
     for (int i = 0; i < numParents; i += 2) {
         int crossoverPoint = rand() % numGenes;
+        
         for (int j = 0; j < numGenes; ++j) {
             if (j <= crossoverPoint) {
                 offspring[i][j] = parents[i][j];
@@ -117,11 +119,10 @@ void mutation(vector<vector<bool>>& population, double mutationRate) {
     }
 }
 
-void replacePopulation(vector<vector<bool>>& population, const vector<vector<bool>>& offspring)
-{
+void replacePopulation(vector<vector<bool>>& population, const vector<vector<bool>>& offspring) {
     int numToReplace = offspring.size();
     int numPopulation = population.size();
-    for (int i = 0; i < numToReplace; ++i)  {
+    for (int i = 0; i < numToReplace; ++i) {
         population[numPopulation - 1 - i] = offspring[i];
     }
 }
@@ -138,13 +139,27 @@ int calculateTotalWeight(const vector<bool>& solution, const vector<Item>& items
     return totalWeight;
 }
 
+void printOutput(int testCaseIndex, vector<bool>& bestSolution, int bestValue, vector<Item>& items) {
+    cout << "Test Case " << testCaseIndex + 1 << ":\n";
+    cout << "Number of selected items: " << count(bestSolution.begin(), bestSolution.end(), true) << endl;
+    cout << "Total value: " << bestValue << endl;
+    cout << "Total weight: " << calculateTotalWeight(bestSolution, items) << endl;
+
+    cout << "Selected items:\n";
+    for (int i = 0; i < bestSolution.size(); ++i) {
+        if (bestSolution[i]) {
+            cout << "Item No: " << i+1 <<" | Weight: " << items[i].weight << " Value: " << items[i].value << endl;
+        }
+    }
+    cout << endl;
+    cout << endl;
+}
+
 int main() {
     int numTestCases;
     vector<int> KnapsackSize;
     vector< vector<Item> > testCases;
     readInputFromFile("input.txt", numTestCases, KnapsackSize, testCases);
-
-    srand(static_cast<unsigned>(time(0)));
 
     for (int testCaseIndex = 0; testCaseIndex < numTestCases; ++testCaseIndex) {
         int knapsackSize = KnapsackSize[testCaseIndex];
@@ -185,19 +200,8 @@ int main() {
         }
         
         // Output the results for this test case
-        cout << "Test Case " << testCaseIndex + 1 << ":\n";
-        cout << "Number of selected items: " << count(bestSolution.begin(), bestSolution.end(), true) << endl;
-        cout << "Total value: " << bestValue << endl;
-        cout << "Total weight: " << calculateTotalWeight(bestSolution, items) << endl;
-
-        cout << "Selected items:\n";
-        for (int i = 0; i < bestSolution.size(); ++i) {
-            if (bestSolution[i]) {
-                cout << "Item No: " << i+1 <<" | Weight: " << items[i].weight << " Value: " << items[i].value << endl;
-            }
-        }
-        cout << endl;
-        cout << endl;
+        printOutput(testCaseIndex, bestSolution, bestValue, items);
+        
     }
 
     return 0;
